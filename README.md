@@ -1,17 +1,29 @@
-# Projet Kotlin
+# Projet Kotlin - S6
+## Rôles
+- **Chef de projet :** Romain Piet
+- **Scrum Master :** Titouan Paris
+- **Lead Dev :** Florian Parente
+- **Développeurs :**
+    - Vue 1 ou 3 : Raphaël Victor, Florian Parente, Léo Rassindrame, Thomas Geoffroy
+    - Vue 2 : Raphaël Victor, Florian Parente, Léo Rassindrame, Thomas Geoffroy    
 
-Utilisation de Git\
-Cloner un répertoire\
-git clone XXXX XXX le liens HTTP dispo sur le github\
-Faire un commit\
-git add XXX XXX le nom du fichier\
-git commit -m "Le commentaire du commit"\
-git push\
-Récupérer un commit\
-git pull\
-Changer de branche\
-git checkout XXX XXX le nom de la branche (main ou dev)\
-Configurer git\
-git config --list --show-origin\
-git config --global user.name "John Doe"\
-git config --global user.email johndoe@example.com\
+## Utilisation de Git (ou avec GitHub Desktop)
+
+### Cloner un repository
+`git clone <repo>`\
+
+### Créer un commit
+`git add <files>`\
+`git commit -m "<comment>"`\
+`git push`\
+
+### Branches
+Créer une branche : `git branch <name>`\
+Changer de branche : `git checkout <branch>`\
+
+### Configurer Git
+```
+git config --list --show-origin
+git config --global user.name "<name>"
+git config --global user.email "<email>"
+```
