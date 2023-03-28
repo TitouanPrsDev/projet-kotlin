@@ -10,16 +10,16 @@
 ## Utilisation de Git (ou avec GitHub Desktop)
 
 ### Cloner un repository
-`git clone <repo>`\
+`git clone <repo>`
 
 ### Créer un commit
 `git add <files>`\
 `git commit -m "<comment>"`\
-`git push`\
+`git push`
 
 ### Branches
 Créer une branche : `git branch <name>`\
-Changer de branche : `git checkout <branch>`\
+Changer de branche : `git checkout <branch>`
 
 ### Configurer Git
 ```
