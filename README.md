@@ -2,10 +2,11 @@
 ## Rôles
 - **Chef de projet :** Romain Piet
 - **Scrum Master :** Titouan Paris
-- **Lead Dev :** Florian Parente
+- **Lead Dev :** Florian Parenté
 - **Développeurs :**
-    - Vue 1 ou 3 : Raphaël Victor, Florian Parente, Léo Rassindrame, Thomas Geoffroy
-    - Vue 2 : Raphaël Victor, Florian Parente, Léo Rassindrame, Thomas Geoffroy    
+    - Vue 1 : Raphaël Victor & Florian Parenté
+    - Vue 2 : Tous les développeurs
+    - Vue 3 : Thomas Geoffroy & Léo Rassindrame
 
 ## Utilisation de Git (ou avec GitHub Desktop)
 
