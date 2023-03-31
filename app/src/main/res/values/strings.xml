@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">AppDrone</string>
     <string name="acc_der">Accéder</string>
+    <string name="title_activity_vue1">Vue1</string>
 </resources>
