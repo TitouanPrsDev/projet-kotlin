@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -27,18 +28,19 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDdHTdJtt3nJdMhvGLvEJzaOfFEc_Zi-c0" />
+            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".Vue1"
             android:exported="false"
-            android:label="@string/title_activity_vue1" />
+            android:label="@string/title_activity_vue1"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
