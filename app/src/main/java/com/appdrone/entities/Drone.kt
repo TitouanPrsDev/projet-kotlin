@@ -1,10 +1,14 @@
 package com.appdrone.entities
 
-class Drone (
-    private var name: String,
-    private var position: WayPoint,
-    private var trajectoire: List<WayPoint>
-        ): Mouvement() {
+import com.appdrone.R
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+
+class Drone (var name: String): Mouvement() {
+
+    var icon = BitmapDescriptorFactory.fromResource(R.drawable.icon)
+    var position: Waypoint = Waypoint(0.0, 0.0, 0.0)
+    var trajectoire: ArrayList<Waypoint> = ArrayList()
     fun calculTrajectoire() {
 
     }
