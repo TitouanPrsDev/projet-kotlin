@@ -9,9 +9,7 @@ class Drone (var name: String): Mouvement() {
     var icon = BitmapDescriptorFactory.fromResource(R.drawable.icon)
     var position: Waypoint = Waypoint(0.0, 0.0, 0.0)
     var trajectoire: ArrayList<Waypoint> = ArrayList()
-    fun calculTrajectoire() {
-
-    }
+    var vitesse: Double = 0.0
 
     override fun avancer() {
         TODO("Not yet implemented")

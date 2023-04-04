@@ -14,7 +14,7 @@ class Monthread : Thread() {
     var longitude = ""
     var latitude = ""
     var vitesse = ""
-    var rotation = ""
+    var direction = ""
     var orientationLat = ""
     var orientationLong = ""
 
@@ -32,7 +32,7 @@ class Monthread : Thread() {
                         latitude = fields[5]
                         orientationLat = fields[6]
                         vitesse = fields[7]
-                        rotation = fields[8]
+                        direction = fields[8]
 
                         if (orientationLong.equals("S")){
                             longitude = (-1 * ddm_to_dd(longitude.toDouble())).toString()
@@ -44,7 +44,6 @@ class Monthread : Thread() {
                         } else {
                             latitude = ddm_to_dd(latitude.toDouble()).toString()
                         }
-
 
                         vitesse = ddm_to_dd(vitesse.toDouble()).toString()
                     }

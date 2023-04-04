@@ -1,5 +1,6 @@
 package com.appdrone
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
@@ -64,7 +65,8 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback {
         var longitude = ""
         var latitude = ""
         var vitesse = ""
-        var rotation = ""
+        var direction = ""
+        val polylineOptions = PolylineOptions().color(Color.RED).width(5f)
 
         val markerbateau = mMap.addMarker(MarkerOptions().position(LatLng(0.00, 0.00)).title(drone1.name).icon(drone1.icon))
         if (markerbateau != null) {
@@ -76,21 +78,25 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback {
                 longitude = MonThread.longitude
                 latitude = MonThread.latitude
                 vitesse = MonThread.vitesse
-                rotation = MonThread.rotation
+                direction = MonThread.direction
 
                 println("longitude : " + longitude)
                 println("latitude : " + latitude)
                 println("vitesse : " + vitesse)
-                println("rotation : " + rotation)
+                println("rotation : " + direction)
                 println("--------------------")
-                if (longitude != "" && latitude != "" && vitesse != "" && rotation != ""){
+                if (longitude != "" && latitude != "" && vitesse != "" && direction != ""){
                     drone1.position.x = longitude.toDouble()
                     drone1.position.y = latitude.toDouble()
+                    drone1.position.direction = direction.toDouble()
+                    drone1.vitesse = vitesse.toDouble()
                     this@Vue1 .runOnUiThread {
                         if (markerbateau != null) {
                             markerbateau.position = LatLng(drone1.position.x, drone1.position.y)
-                            markerbateau.rotation = rotation.toFloat()
+                            markerbateau.rotation = drone1.position.direction.toFloat()
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(markerbateau.position))
+                            polylineOptions.add(markerbateau.position)
+                            mMap.addPolyline(polylineOptions)
                         }
                     }
                 }
