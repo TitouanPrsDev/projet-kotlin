@@ -14,15 +14,19 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import java.lang.Math.round
 import java.util.*
 
 
-class Vue1 : AppCompatActivity(), OnMapReadyCallback {
+class Vue1 : AppCompatActivity(), OnMapReadyCallback, CoroutineScope by MainScope() {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityVue1Binding
 
+    val MonThread : Monthread = Monthread()
+    val timer = Timer()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -46,6 +50,9 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
+
+
     override fun onMapReady(googleMap: GoogleMap) {
         //Create a data source and add it to the map.
         mMap = googleMap
@@ -54,7 +61,7 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback {
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
-        val MonThread : Monthread = Monthread()
+
         MonThread.start()
 
         var longitude = ""
@@ -67,7 +74,7 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback {
         if (markerbateau != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerbateau.position, 8f))
         }
-        val timer = Timer()
+
         val task = object : TimerTask(){
             override fun run() {
                 longitude = MonThread.longitude
@@ -81,16 +88,16 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback {
                 println("rotation : " + direction)
                 println("--------------------")
                 if (longitude != "" && latitude != "" && vitesse != "" && direction != ""){
-                    drone1.position.x = longitude.toDouble()
-                    drone1.position.y = latitude.toDouble()
-                    drone1.position.direction = direction.toDouble()
+                    drone1.position!!.x = longitude.toDouble()
+                    drone1.position!!.y = latitude.toDouble()
+                    drone1.direction = direction.toDouble()
                     drone1.vitesse = vitesse.toDouble()
                     this@Vue1 .runOnUiThread {
                         if (markerbateau != null) {
-                            markerbateau.position = LatLng(drone1.position.x, drone1.position.y)
-                            markerbateau.rotation = drone1.position.direction.toFloat()
+                            markerbateau.position = LatLng(drone1.position!!.x, drone1.position!!.y)
+                            markerbateau.rotation = drone1.direction!!.toFloat()
 
-                            markerbateau.snippet = "Vitesse : " + drone1.vitesse + " knots" + " -> " + round(drone1.vitesse * 1.852) + " km/h"
+                            markerbateau.snippet = "Vitesse : " + drone1.vitesse + " knots" + " -> " + round(drone1.vitesse!! * 1.852) + " km/h"
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(markerbateau.position))
                             polylineOptions.add(markerbateau.position)
                             mMap.addPolyline(polylineOptions)
@@ -100,5 +107,12 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback {
             }
         }
         timer.schedule(task, 0, 1000)
+
         }
+    override fun onDestroy() {
+        super.onDestroy()
+        timer.cancel()
+        MonThread.interrupt()
+        finish()
+    }
 }

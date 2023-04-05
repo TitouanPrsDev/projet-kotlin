@@ -11,4 +11,5 @@
     <string name="nmea_controller">NMEA Controller</string>
     <string name="voir_le_drone_en_temps_r_el">Voir le drone en temps réel</string>
     <string name="suivre_une_trajectoire">Suivre une trajectoire</string>
+    <string name="cr_er_fichier_de_suivi">Créer fichier de suivi</string>
 </resources>
