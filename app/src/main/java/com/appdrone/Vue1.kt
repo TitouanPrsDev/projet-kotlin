@@ -4,6 +4,8 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
+import androidx.appcompat.app.ActionBar
+import androidx.fragment.app.FragmentTransaction
 import com.appdrone.Thread.Monthread
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -14,18 +16,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.appdrone.databinding.ActivityVue1Binding
 import com.appdrone.entities.Drone
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.io.PrintWriter
-import java.net.Socket
+import java.lang.Math.round
 import java.util.*
 
 
-class Vue1 : AppCompatActivity(), OnMapReadyCallback {
+class Vue1 : AppCompatActivity(), OnMapReadyCallback, ActionBar.TabListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityVue1Binding
@@ -40,6 +36,8 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+
     }
 
     /**
@@ -68,7 +66,7 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback {
         var direction = ""
         val polylineOptions = PolylineOptions().color(Color.RED).width(5f)
 
-        val markerbateau = mMap.addMarker(MarkerOptions().position(LatLng(0.00, 0.00)).title(drone1.name).icon(drone1.icon))
+        val markerbateau = mMap.addMarker(MarkerOptions().position(LatLng(0.00, 0.00)).title(drone1.name).icon(drone1.icon).snippet(""))
         if (markerbateau != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerbateau.position, 8f))
         }
@@ -94,6 +92,8 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback {
                         if (markerbateau != null) {
                             markerbateau.position = LatLng(drone1.position.x, drone1.position.y)
                             markerbateau.rotation = drone1.position.direction.toFloat()
+
+                            markerbateau.snippet = "Vitesse : " + drone1.vitesse + " knots" + " -> " + round(drone1.vitesse * 1.852) + " km/h"
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(markerbateau.position))
                             polylineOptions.add(markerbateau.position)
                             mMap.addPolyline(polylineOptions)
@@ -103,32 +103,17 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback {
             }
         }
         timer.schedule(task, 0, 1000)
-
         }
 
-    fun tcptest(){
+    override fun onTabSelected(tab: ActionBar.Tab?, ft: FragmentTransaction?) {
+        TODO("Not yet implemented")
+    }
 
-        val client = Socket("10.0.2.2", 8080)
-        val output = PrintWriter(client.getOutputStream(), true)
-        val input = BufferedReader(InputStreamReader(client.inputStream))
+    override fun onTabUnselected(tab: ActionBar.Tab?, ft: FragmentTransaction?) {
+        TODO("Not yet implemented")
+    }
 
-
-        input.useLines { lines ->
-            lines.forEach {
-                val fields = it.split(",")
-                if (fields[0] == "\$GPRMC") {
-                    var longitude = fields[5]
-                    var latitude = fields[3]
-                    var vitesse = fields[7]
-                    longitude = longitude.substring(0, 3) + "." + longitude.substring(3,5) + "°"
-                    latitude = latitude.substring(0, 2) + "." + latitude.substring(2,4) + "°"
-                    println(" longitude : " + longitude)
-                    println(" latitude : " + latitude )
-                    println(" vitesse : " + vitesse)
-                }
-            }
-        }
-        println("hello")
-        client.close()
+    override fun onTabReselected(tab: ActionBar.Tab?, ft: FragmentTransaction?) {
+        TODO("Not yet implemented")
     }
 }

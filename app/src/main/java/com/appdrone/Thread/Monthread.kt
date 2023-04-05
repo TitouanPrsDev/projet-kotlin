@@ -45,7 +45,7 @@ class Monthread : Thread() {
                             latitude = ddm_to_dd(latitude.toDouble()).toString()
                         }
 
-                        vitesse = ddm_to_dd(vitesse.toDouble()).toString()
+                        vitesse = vitesse.toDouble().toString()
                     }
                 }
             }
