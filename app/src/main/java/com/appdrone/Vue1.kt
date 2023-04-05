@@ -1,27 +1,24 @@
 package com.appdrone
 
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.StrictMode
-import androidx.appcompat.app.ActionBar
-import androidx.fragment.app.FragmentTransaction
+import androidx.appcompat.app.AppCompatActivity
 import com.appdrone.Thread.Monthread
-
+import com.appdrone.databinding.ActivityVue1Binding
+import com.appdrone.entities.Drone
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.appdrone.databinding.ActivityVue1Binding
-import com.appdrone.entities.Drone
 import com.google.android.gms.maps.model.PolylineOptions
 import java.lang.Math.round
 import java.util.*
 
 
-class Vue1 : AppCompatActivity(), OnMapReadyCallback, ActionBar.TabListener {
+class Vue1 : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityVue1Binding
@@ -104,16 +101,4 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback, ActionBar.TabListener {
         }
         timer.schedule(task, 0, 1000)
         }
-
-    override fun onTabSelected(tab: ActionBar.Tab?, ft: FragmentTransaction?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onTabUnselected(tab: ActionBar.Tab?, ft: FragmentTransaction?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onTabReselected(tab: ActionBar.Tab?, ft: FragmentTransaction?) {
-        TODO("Not yet implemented")
-    }
 }

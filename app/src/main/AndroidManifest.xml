@@ -34,30 +34,36 @@
 
         <activity
             android:name=".Vue1"
-            android:exported="true"
-            android:label="@string/title_activity_vue1">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false"
+            android:label="@string/title_activity_vue1"
+            android:parentActivityName=".MenuActivity"
+            >
         </activity>
 
         <activity
             android:name=".Vue2"
             android:exported="false"
             android:label="@string/title_activity_vue2"
-            android:parentActivityName=".Vue1"
+            android:parentActivityName=".MenuActivity"
             />
         <activity
             android:name=".Vue3"
             android:exported="false"
-            android:label="@string/title_activity_vue3" />
+            android:label="@string/title_activity_vue3"
+            android:parentActivityName=".MenuActivity"/>
 
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+            android:name=".MenuActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
     </application>
 
 </manifest>
