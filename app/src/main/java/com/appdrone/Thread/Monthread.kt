@@ -9,7 +9,7 @@ import java.net.Socket
 
 class Monthread : Thread() {
     val host = "10.0.2.2"
-    val port = 8080
+    val port = 1234
 
     var longitude = ""
     var latitude = ""
