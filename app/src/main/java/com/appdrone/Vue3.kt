@@ -11,10 +11,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.appdrone.databinding.ActivityVue3Binding
 
-class Vue3 : AppCompatActivity(), OnMapReadyCallback {
+class Vue3 : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityVue3Binding
+    var latLng : LatLng = LatLng(0.0,0.0);
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +27,12 @@ class Vue3 : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+
+    }
+
+    override fun onMapClick(latLng: LatLng) {
+        mMap.addMarker(MarkerOptions().position(latLng))
     }
 
     /**
@@ -44,5 +51,6 @@ class Vue3 : AppCompatActivity(), OnMapReadyCallback {
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.setOnMapClickListener(this)
     }
 }
