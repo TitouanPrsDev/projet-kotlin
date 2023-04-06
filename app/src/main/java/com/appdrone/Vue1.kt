@@ -4,7 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.StrictMode
 import androidx.appcompat.app.AppCompatActivity
-import com.appdrone.Thread.Monthread
+import com.appdrone.Utilitaire.Monthread
 import com.appdrone.databinding.ActivityVue1Binding
 import com.appdrone.entities.Drone
 import com.google.android.gms.maps.CameraUpdateFactory

@@ -1,7 +1,9 @@
 package com.appdrone
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.widget.Button
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -12,6 +14,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.appdrone.databinding.ActivityVue3Binding
 import com.appdrone.entities.Drone
 import com.appdrone.entities.Waypoint
+import com.appdrone.Utilitaire.Parsergpx
+import java.io.File
+import java.io.FileOutputStream
 
 class Vue3 : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
@@ -33,7 +38,11 @@ class Vue3 : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListen
         val buttonFichier = findViewById<Button>(R.id.buttonSuivi)
 
         buttonFichier.setOnClickListener {
-            // val gpxFile = GpxType()
+            val parser = Parsergpx()
+
+            val fos : FileOutputStream = openFileOutput("test.gpx", Context.MODE_PRIVATE)
+            parser.writeToFile(fos, "fichier1", "test", tab)
+            fos.close()
         }
     }
 

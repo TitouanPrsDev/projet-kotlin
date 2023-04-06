@@ -1,8 +1,7 @@
 package com.appdrone.entities
 
-import com.appdrone.Thread.Monthread
+import com.appdrone.Utilitaire.Monthread
 import com.appdrone.R
-import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -11,7 +10,6 @@ class Drone (val name: String) : Mouvement() {
 
     var icon = BitmapDescriptorFactory.fromResource(R.drawable.icon)
     var position: Waypoint? = null
-    var trajectoire: ArrayList<Waypoint> = ArrayList()
     var vitesse: Double? = null
     var direction: Double? = null
 
@@ -35,23 +33,17 @@ class Drone (val name: String) : Mouvement() {
         TODO("Not yet implemented")
     }
 
-    override fun droite() {
+    override fun urgence() {
         TODO("Not yet implemented")
     }
 
-    override fun gauche() {
+    override fun home() {
         TODO("Not yet implemented")
     }
 
-    override fun plonger() {
+    override fun demarrer() {
         TODO("Not yet implemented")
     }
 
-    override fun remonter() {
-        TODO("Not yet implemented")
-    }
 
-    override fun suivreTracjectoire() {
-        TODO("Not yet implemented")
-    }
 }
