@@ -16,14 +16,13 @@ class Drone (val name: String) : Mouvement() {
     init {
         val monThread : Monthread = Monthread()
         monThread.start()
-        runBlocking {
-            delay(1000)
-            position = Waypoint(0.0, 0.0)
-            position!!.x = monThread.longitude.toDouble()
-            position!!.y = monThread.latitude.toDouble()
-            vitesse = monThread.vitesse.toDouble()
-            direction = monThread.direction.toDouble()
-        }
+        Thread.sleep(1000)
+        position = Waypoint(0.0, 0.0)
+        position!!.x = monThread.longitude.toDouble()
+        position!!.y = monThread.latitude.toDouble()
+        vitesse = monThread.vitesse.toDouble()
+        direction = monThread.direction.toDouble()
+        monThread.interruptThread()
     }
     override fun avancer() {
         TODO("Not yet implemented")
@@ -44,6 +43,4 @@ class Drone (val name: String) : Mouvement() {
     override fun demarrer() {
         TODO("Not yet implemented")
     }
-
-
 }
