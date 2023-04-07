@@ -30,17 +30,6 @@
     - Vue 2 : Tous les développeurs
     - Vue 3 : Thomas Geoffroy & Léo Rassindrame
 
-
-## Utilisation de Git (ou avec GitHub Desktop)
-
-### Cloner un repository
-`git clone <repo>`
-
-### Créer un commit
-`git add <files>`\
-`git commit -m "<comment>"`\
-`git push`
-
 ### Branches
 Créer une branche : `git branch <name>`\
 Changer de branche : `git checkout <branch>`
