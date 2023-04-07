@@ -10,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
@@ -28,6 +29,9 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback, CoroutineScope by MainScop
     // Création d'un timer pour mettre à jour la position du drone
     private val timer : Timer = Timer()
 
+    // Création d'un drone
+    val drone : Drone = Drone("drone")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,9 +48,6 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback, CoroutineScope by MainScop
 
         mMap = googleMap
 
-        // Création d'un drone
-        val drone : Drone = Drone("drone")
-
         // Autorisation de l'application à accéder au réseau
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
@@ -56,7 +57,10 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback, CoroutineScope by MainScop
 
         // Création d'un marqueur pour le drone et zoom sur la position du drone
         val markerBateau = mMap.addMarker(
-            MarkerOptions().position(LatLng(0.00, 0.00)).title(drone.name).icon(drone.icon)
+            MarkerOptions()
+                .position(LatLng(drone.position!!.latitude, drone.position!!.longitude))
+                .title(drone.name)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon))
                 .snippet("")
         )
         if (markerBateau != null) {
@@ -97,7 +101,9 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback, CoroutineScope by MainScop
 
     override fun onDestroy() {
         super.onDestroy()
-        // Arrêt du timer
+
+        // Arrêt du timer et la réception des données du drone
+        drone.stop()
         timer.cancel()
         finish()
     }

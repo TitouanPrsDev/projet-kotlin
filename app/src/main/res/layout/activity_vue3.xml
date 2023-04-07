@@ -13,7 +13,7 @@
            android:backgroundTint="#2F80ED"
            android:text="@string/cr_er_fichier_de_suivi"
            android:layout_marginTop="610dp"
-           android:layout_marginStart="100dp"
+           android:layout_marginStart="80dp"
            android:textColor="#F2F2F2"
            />
 

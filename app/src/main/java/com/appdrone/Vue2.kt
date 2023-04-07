@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.appdrone.databinding.ActivityVue2Binding
 import com.appdrone.entities.Drone
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.maps.android.SphericalUtil
 
 import java.util.*
@@ -75,14 +76,18 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
         drone1.vitesse = 0.1
 
 
-        val markerbateau = mMap.addMarker(MarkerOptions().position(LatLng(0.00, 0.00)).title(drone1.name).icon(drone1.icon).snippet(""))
+        val markerbateau = mMap
+            .addMarker(MarkerOptions()
+                .position(LatLng(drone1.position!!.latitude, drone1.position!!.longitude))
+                .title(drone1.name)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon))
+                .snippet(""))
         if (markerbateau != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerbateau.position, 8f))
         }
 
         val task = object : TimerTask() {
             override fun run() {
-                println("--------------------")
                 drone1.orientation = angle
                 this@Vue2.runOnUiThread {
                     if (markerbateau != null) {

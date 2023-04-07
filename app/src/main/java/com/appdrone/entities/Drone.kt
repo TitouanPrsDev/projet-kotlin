@@ -1,37 +1,45 @@
 package com.appdrone.entities
 
-import com.appdrone.Utilitaire.Monthread
+import com.appdrone.Utilitaire.Threadinit
 import com.appdrone.R
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 
 class Drone(val name: String) {
 
-    var icon : BitmapDescriptor? = null
+    // déclaration des variables
     var position: Waypoint? = null
     var vitesse: Double? = null
     var orientation: Double? = null
 
-    val threadInit: Monthread = Monthread()
+    // initialisation du thread
+    val threadInit: Threadinit = Threadinit()
 
     init {
+
+        // initialisation du thread
         threadInit.name = "Drone init"
         threadInit.start()
+
+        // attente de la première réception de données
         Thread.sleep(1000)
-        icon = BitmapDescriptorFactory.fromResource(R.drawable.icon)
-        position = Waypoint(0.0, 0.0)
-        position!!.longitude = threadInit.longitude.toDouble()
-        position!!.latitude = threadInit.latitude.toDouble()
+
+        // initialisation de la position du drone
+        position = Waypoint(threadInit.longitude.toDouble(), threadInit.latitude.toDouble())
         vitesse = threadInit.vitesse.toDouble()
-        orientation = threadInit.direction.toDouble()
+        orientation = threadInit.orientation.toDouble()
     }
 
+    // fonction de mise à jour des données du drone
     fun update() {
         position!!.longitude = threadInit.longitude.toDouble()
         position!!.latitude = threadInit.latitude.toDouble()
         vitesse = threadInit.vitesse.toDouble()
-        orientation = threadInit.direction.toDouble()
+        orientation = threadInit.orientation.toDouble()
+    }
+
+    // fonction d'interruption du thread
+    fun stop() {
+        threadInit.interrupt()
     }
 }
