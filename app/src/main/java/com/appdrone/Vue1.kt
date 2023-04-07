@@ -74,6 +74,11 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback, CoroutineScope by MainScop
                 // Mise à jour des valeurs du drone
                 drone.update()
 
+               /* println("Latitude : " + drone.position!!.latitude)
+                println("Longitude : " + drone.position!!.longitude)
+                println("Orientation : " + drone.orientation)
+                println("Vitesse : " + drone.vitesse)*/
+
                 // Mise à jour de la position du drone
                 this@Vue1.runOnUiThread {
                     if (markerBateau != null) {
@@ -95,7 +100,7 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback, CoroutineScope by MainScop
                 }
             }
         }
-        // lancement du timer
+        // Lancement du timer
         timer.schedule(task, 0, 1000)
     }
 

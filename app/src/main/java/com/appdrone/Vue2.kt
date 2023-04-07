@@ -1,5 +1,6 @@
 package com.appdrone
 
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -19,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.appdrone.databinding.ActivityVue2Binding
 import com.appdrone.entities.Drone
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.maps.android.SphericalUtil
 import java.util.*
 import kotlin.math.*
@@ -30,16 +32,16 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
     val timer = Timer()
     val timer2 = Timer()
 
-    private var doFirst:Boolean = false
+    private var doFirst: Boolean = false
     private var timerBool = true
     private var angle = 0.0
     private var vitesseGlobale = 0.0
-    private var isGauche:Int = 1
+    private var isGauche: Int = 1
     private lateinit var sensorManager: SensorManager
     private var home: LatLng = LatLng(46.15507352200837, -1.154131833798576)
     private var positionGlobale: LatLng = home
 
-    private var stopAccelerometre:Boolean = false
+    private var stopAccelerometre: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +59,7 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
         vitesseBar.min = 0
         vitesseBar.max = 70
 
-        vitesseBar.setOnSeekBarChangeListener(object:
+        vitesseBar.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seek: SeekBar?, progress: Int, fromuser: Boolean) {
                 vitesseGlobale = progress.toDouble()
@@ -105,13 +107,18 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
             val lat1Radians = Math.toRadians(lat1)
             val lat2Radians = Math.toRadians(lat2)
             val deltaLat = lat2Radians - lat1Radians
-            val a = sin(deltaLat / 2).pow(2.0) + cos(lat1Radians) * cos(lat2Radians) * sin(deltaLon / 2).pow(2.0)
+            val a =
+                sin(deltaLat / 2).pow(2.0) + cos(lat1Radians) * cos(lat2Radians) * sin(deltaLon / 2).pow(
+                    2.0
+                )
             val c = 2 * atan2(sqrt(a), sqrt(1 - a))
             val distance = R * c
 
 // Calcul de l'angle en radians
             val y = sin(deltaLon) * cos(lat2Radians)
-            val x = cos(lat1Radians) * sin(lat2Radians) - sin(lat1Radians) * cos(lat2Radians) * cos(deltaLon)
+            val x = cos(lat1Radians) * sin(lat2Radians) - sin(lat1Radians) * cos(lat2Radians) * cos(
+                deltaLon
+            )
             var angleDirection = atan2(y, x)
 
 // Conversion en degrés
@@ -131,31 +138,23 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
         buttonUrgence.setOnClickListener {
             println("Urgence !")
             vitesseGlobale = 0.0
+            vitesseBar.setProgress(0)
         }
 
 
         setUpSensorStuff()
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     override fun onMapReady(googleMap: GoogleMap) {
         //Create a data source and add it to the map.
         mMap = googleMap
 
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
-
+        val polylineOptions = PolylineOptions().color(Color.RED).width(5f)
 
         // Création drone
-        var drone1:Drone = Drone("Principal")
+        var drone1: Drone = Drone("Principal")
         // Position : vieux port
         drone1.position!!.latitude = home.latitude
         drone1.position!!.longitude = home.longitude
@@ -163,10 +162,12 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
         drone1.vitesse = 0.0
 
 
-        val markerbateau = mMap.addMarker(MarkerOptions()
-            .position(LatLng(0.00, 0.00))
-            .title(drone1.name)
-            .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon)).snippet(""))
+        val markerbateau = mMap.addMarker(
+            MarkerOptions()
+                .position(LatLng(0.00, 0.00))
+                .title(drone1.name)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon)).snippet("")
+        )
         if (markerbateau != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerbateau.position, 8f))
         }
@@ -180,7 +181,8 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
 
                 this@Vue2.runOnUiThread {
                     if (markerbateau != null) {
-                        markerbateau.position = LatLng(drone1.position!!.latitude, drone1.position!!.longitude)
+                        markerbateau.position =
+                            LatLng(drone1.position!!.latitude, drone1.position!!.longitude)
                         markerbateau.rotation = drone1.orientation!!.toFloat()
 
                         markerbateau.snippet =
@@ -188,6 +190,14 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
                                 drone1.vitesse!! * 1.852
                             ) + " km/h"
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(markerbateau.position))
+                        polylineOptions.add(markerbateau.position)
+                        mMap.addPolyline(polylineOptions)
+                        /* println("Latitude : " + drone.position!!.latitude)
+                           println("Longitude : " + drone.position!!.longitude)
+                           println("Orientation : " + drone.orientation)
+                            println("Vitesse : " + drone.vitesse)
+                        */
+
                     }
                 }
             }
@@ -197,8 +207,13 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
         val task2 = object : TimerTask() {
             override fun run() {
                 // knot -> m/s
-                val metresecondes:Double = drone1.vitesse!! / 1.94384
-                val nvPos: LatLng = getDestinationLatLng(LatLng(drone1.position!!.latitude, drone1.position!!.longitude), metresecondes , drone1.orientation!!)
+                val metresecondes: Double = drone1.vitesse!! / 1.94384
+                val nvPos: LatLng = getDestinationLatLng(
+                    LatLng(
+                        drone1.position!!.latitude,
+                        drone1.position!!.longitude
+                    ), metresecondes, drone1.orientation!!
+                )
                 positionGlobale = nvPos
 
                 timerBool = true // remettre le boolean toutes les secondes pour l'acceleromètre
@@ -225,8 +240,9 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
                     doFirst = true
                 } else {
                     val accel: Float = event.values[1]
-                    var diviseurVitesse:Int = (16 - (vitesseGlobale / 2.33)).toInt()
-                    if(diviseurVitesse < 1) diviseurVitesse = 1
+                    var diviseurVitesse: Int = (16 - (vitesseGlobale / 2.33)).toInt()
+                    if (diviseurVitesse < 1) diviseurVitesse = 1
+                    // Le drone ne tourne pas si il est à l'arrêt
                     if (vitesseGlobale == 0.0) diviseurVitesse = 9999999
                     angle += (accel * 9.17 * isGauche) / diviseurVitesse // tourne + ou - vite selon vitesse
                     if (angle > 360) angle -= 360 // Remettre à zero
