@@ -25,38 +25,30 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback, CoroutineScope by MainScop
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityVue1Binding
 
+    // Création d'un thread pour récupérer les données du drone en temps réel
     val MonThread : Monthread = Monthread()
+
+    // Création d'un timer pour mettre à jour la position du drone
     val timer = Timer()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityVue1Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
-
     }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-
 
 
     override fun onMapReady(googleMap: GoogleMap) {
-        //Create a data source and add it to the map.
+
         mMap = googleMap
-        val drone1 : Drone = Drone("drone1")
+
+        // Création d'un drone
+        val drone : Drone = Drone("drone")
 
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
@@ -70,7 +62,7 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback, CoroutineScope by MainScop
         var direction = ""
         val polylineOptions = PolylineOptions().color(Color.RED).width(5f)
 
-        val markerbateau = mMap.addMarker(MarkerOptions().position(LatLng(0.00, 0.00)).title(drone1.name).icon(drone1.icon).snippet(""))
+        val markerbateau = mMap.addMarker(MarkerOptions().position(LatLng(0.00, 0.00)).title(drone.name).icon(drone.icon).snippet(""))
         if (markerbateau != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerbateau.position, 8f))
         }
@@ -82,22 +74,17 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback, CoroutineScope by MainScop
                 vitesse = MonThread.vitesse
                 direction = MonThread.direction
 
-                println("longitude : " + longitude)
-                println("latitude : " + latitude)
-                println("vitesse : " + vitesse)
-                println("rotation : " + direction)
-                println("--------------------")
                 if (longitude != "" && latitude != "" && vitesse != "" && direction != ""){
-                    drone1.position!!.x = longitude.toDouble()
-                    drone1.position!!.y = latitude.toDouble()
-                    drone1.direction = direction.toDouble()
-                    drone1.vitesse = vitesse.toDouble()
+                    drone.position!!.x = longitude.toDouble()
+                    drone.position!!.y = latitude.toDouble()
+                    drone.direction = direction.toDouble()
+                    drone.vitesse = vitesse.toDouble()
                     this@Vue1 .runOnUiThread {
                         if (markerbateau != null) {
-                            markerbateau.position = LatLng(drone1.position!!.x, drone1.position!!.y)
-                            markerbateau.rotation = drone1.direction!!.toFloat()
+                            markerbateau.position = LatLng(drone.position!!.x, drone.position!!.y)
+                            markerbateau.rotation = drone.direction!!.toFloat()
 
-                            markerbateau.snippet = "Vitesse : " + drone1.vitesse + " knots" + " -> " + round(drone1.vitesse!! * 1.852) + " km/h"
+                            markerbateau.snippet = "Vitesse : " + drone.vitesse + " knots" + " -> " + round(drone.vitesse!! * 1.852) + " km/h"
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(markerbateau.position))
                             polylineOptions.add(markerbateau.position)
                             mMap.addPolyline(polylineOptions)

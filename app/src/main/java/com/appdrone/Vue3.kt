@@ -55,18 +55,15 @@ class Vue3 : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListen
         mMap = googleMap
 
         val drone = Drone("drone1")
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         mMap.setOnMapClickListener(this)
 
 
         val markerbateau = mMap.addMarker(MarkerOptions().position(LatLng(0.00, 0.00)).title(drone.name).icon(drone.icon).snippet(""))
-
         if (markerbateau != null) {
             markerbateau.position = LatLng(drone.position!!.x.toDouble(), drone.position!!.y.toDouble())
+            markerbateau.rotation = drone.direction!!.toFloat()
             mMap.moveCamera(CameraUpdateFactory.newLatLng(markerbateau.position))
         }
     }
+
 }

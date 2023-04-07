@@ -17,12 +17,12 @@ class Monthread : Thread() {
     var direction = ""
     var orientationLat = ""
     var orientationLong = ""
-    var lancer = true
+
     override fun run(){
         try {
             val client = Socket(host, port)
             val input = BufferedReader(InputStreamReader(client.inputStream))
-            while (lancer) {
+            while (!interrupted()) {
                 input.useLines { lines ->
                     lines.forEach {
                         val fields = it.split(",")
@@ -56,10 +56,6 @@ class Monthread : Thread() {
         }
     }
 
-    fun interruptThread(){
-        lancer = false
-        interrupt()
-    }
     fun ddm_to_dd(ddm: Double): Double {
         val degrees: Double = floor(ddm / 100.0)
         val minutes = ddm - degrees * 100.0

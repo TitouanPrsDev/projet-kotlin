@@ -6,7 +6,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 
-class Drone (val name: String) : Mouvement() {
+class Drone (val name: String) {
 
     var icon = BitmapDescriptorFactory.fromResource(R.drawable.icon)
     var position: Waypoint? = null
@@ -22,25 +22,6 @@ class Drone (val name: String) : Mouvement() {
         position!!.y = monThread.latitude.toDouble()
         vitesse = monThread.vitesse.toDouble()
         direction = monThread.direction.toDouble()
-        monThread.interruptThread()
-    }
-    override fun avancer() {
-        TODO("Not yet implemented")
-    }
-
-    override fun freiner() {
-        TODO("Not yet implemented")
-    }
-
-    override fun urgence() {
-        TODO("Not yet implemented")
-    }
-
-    override fun home() {
-        TODO("Not yet implemented")
-    }
-
-    override fun demarrer() {
-        TODO("Not yet implemented")
+        monThread.interrupt()
     }
 }
