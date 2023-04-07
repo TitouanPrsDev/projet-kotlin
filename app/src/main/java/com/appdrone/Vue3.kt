@@ -60,8 +60,8 @@ class Vue3 : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListen
 
         val markerbateau = mMap.addMarker(MarkerOptions().position(LatLng(0.00, 0.00)).title(drone.name).icon(drone.icon).snippet(""))
         if (markerbateau != null) {
-            markerbateau.position = LatLng(drone.position!!.x.toDouble(), drone.position!!.y.toDouble())
-            markerbateau.rotation = drone.direction!!.toFloat()
+            markerbateau.position = LatLng(drone.position!!.longitude.toDouble(), drone.position!!.latitude.toDouble())
+            markerbateau.rotation = drone.orientation!!.toFloat()
             mMap.moveCamera(CameraUpdateFactory.newLatLng(markerbateau.position))
         }
     }

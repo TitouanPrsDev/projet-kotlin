@@ -27,7 +27,7 @@ class Parsergpx {
             fos.write("\t\t<trkseg>\n".toByteArray())
 
             for (point in trajectoire) {
-                fos.write("\t\t\t<trkpt lat=\"${point.x}\" lon=\"${point.y}\">\n".toByteArray())
+                fos.write("\t\t\t<trkpt lat=\"${point.longitude}\" lon=\"${point.latitude}\">\n".toByteArray())
                 fos.write("\t\t\t\t<time></time>\n".toByteArray())
                 fos.write("\t\t\t</trkpt>\n".toByteArray())
             }

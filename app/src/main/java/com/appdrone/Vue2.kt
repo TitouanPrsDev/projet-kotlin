@@ -69,9 +69,9 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
         // Création drone
         var drone1:Drone = Drone("Principal")
         // Position : vieux port
-        drone1.position!!.x = home.longitude
-        drone1.position!!.y = home.latitude
-        drone1.direction = 0.0
+        drone1.position!!.longitude = home.longitude
+        drone1.position!!.latitude = home.latitude
+        drone1.orientation = 0.0
         drone1.vitesse = 0.1
 
 
@@ -83,11 +83,11 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
         val task = object : TimerTask() {
             override fun run() {
                 println("--------------------")
-                drone1.direction = angle
+                drone1.orientation = angle
                 this@Vue2.runOnUiThread {
                     if (markerbateau != null) {
-                        markerbateau.position = LatLng(drone1.position!!.x, drone1.position!!.y)
-                        markerbateau.rotation = drone1.direction!!.toFloat()
+                        markerbateau.position = LatLng(drone1.position!!.longitude, drone1.position!!.latitude)
+                        markerbateau.rotation = drone1.orientation!!.toFloat()
 
                         markerbateau.snippet =
                             "Vitesse : " + drone1.vitesse + " knots" + " -> " + Math.round(
@@ -104,9 +104,9 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
             override fun run() {
                 // knot -> m/s
                 var metresecondes:Double = drone1.vitesse!! / 1.94384
-                var nvPos: LatLng = getDestinationLatLng(LatLng(drone1.position!!.x, drone1.position!!.y), metresecondes , drone1.direction!!)
-                drone1!!.position!!.x = nvPos.latitude
-                drone1!!.position!!.y = nvPos.longitude
+                var nvPos: LatLng = getDestinationLatLng(LatLng(drone1.position!!.longitude, drone1.position!!.latitude), metresecondes , drone1.orientation!!)
+                drone1!!.position!!.longitude = nvPos.latitude
+                drone1!!.position!!.latitude = nvPos.longitude
 
                 timerBool = true // remettre le boolean toutes les secondes pour l'acceleromètre
             }

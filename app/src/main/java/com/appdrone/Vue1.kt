@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.StrictMode
 import androidx.appcompat.app.AppCompatActivity
-import com.appdrone.Utilitaire.Monthread
 import com.appdrone.databinding.ActivityVue1Binding
 import com.appdrone.entities.Drone
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -17,6 +16,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import java.lang.Math.round
+import java.security.Policy
 import java.util.*
 
 
@@ -25,11 +25,8 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback, CoroutineScope by MainScop
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityVue1Binding
 
-    // Création d'un thread pour récupérer les données du drone en temps réel
-    val MonThread : Monthread = Monthread()
-
     // Création d'un timer pour mettre à jour la position du drone
-    val timer = Timer()
+    private val timer : Timer = Timer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,56 +47,58 @@ class Vue1 : AppCompatActivity(), OnMapReadyCallback, CoroutineScope by MainScop
         // Création d'un drone
         val drone : Drone = Drone("drone")
 
+        // Autorisation de l'application à accéder au réseau
         val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
 
-
-        MonThread.start()
-
-        var longitude = ""
-        var latitude = ""
-        var vitesse = ""
-        var direction = ""
+        // Création d'un thread pour mettre à jour la position du drone
         val polylineOptions = PolylineOptions().color(Color.RED).width(5f)
 
-        val markerbateau = mMap.addMarker(MarkerOptions().position(LatLng(0.00, 0.00)).title(drone.name).icon(drone.icon).snippet(""))
-        if (markerbateau != null) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerbateau.position, 8f))
+        // Création d'un marqueur pour le drone et zoom sur la position du drone
+        val markerBateau = mMap.addMarker(
+            MarkerOptions().position(LatLng(0.00, 0.00)).title(drone.name).icon(drone.icon)
+                .snippet("")
+        )
+        if (markerBateau != null) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markerBateau.position, 8f))
         }
 
-        val task = object : TimerTask(){
+        // Création d'une tache pour mettre à jour la position du drone
+        val task = object : TimerTask() {
             override fun run() {
-                longitude = MonThread.longitude
-                latitude = MonThread.latitude
-                vitesse = MonThread.vitesse
-                direction = MonThread.direction
 
-                if (longitude != "" && latitude != "" && vitesse != "" && direction != ""){
-                    drone.position!!.x = longitude.toDouble()
-                    drone.position!!.y = latitude.toDouble()
-                    drone.direction = direction.toDouble()
-                    drone.vitesse = vitesse.toDouble()
-                    this@Vue1 .runOnUiThread {
-                        if (markerbateau != null) {
-                            markerbateau.position = LatLng(drone.position!!.x, drone.position!!.y)
-                            markerbateau.rotation = drone.direction!!.toFloat()
+                // Mise à jour des valeurs du drone
+                drone.update()
 
-                            markerbateau.snippet = "Vitesse : " + drone.vitesse + " knots" + " -> " + round(drone.vitesse!! * 1.852) + " km/h"
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(markerbateau.position))
-                            polylineOptions.add(markerbateau.position)
-                            mMap.addPolyline(polylineOptions)
-                        }
+                // Mise à jour de la position du drone
+                this@Vue1.runOnUiThread {
+                    if (markerBateau != null) {
+                        // Mise à jour de la position du drone
+                        markerBateau.position = LatLng(drone.position!!.longitude, drone.position!!.latitude)
+
+                        // Mise à jour de la direction du drone
+                        markerBateau.rotation = drone.orientation!!.toFloat()
+
+                        // Affichage de la vitesse du drone
+                        markerBateau.snippet =
+                            "Vitesse : " + drone.vitesse + " knots" + " -> " + round(drone.vitesse!! * 1.852) + " km/h"
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(markerBateau.position))
+
+                        // Création du tracé du drone
+                        polylineOptions.add(markerBateau.position)
+                        mMap.addPolyline(polylineOptions)
                     }
                 }
             }
         }
+        // lancement du timer
         timer.schedule(task, 0, 1000)
+    }
 
-        }
     override fun onDestroy() {
         super.onDestroy()
+        // Arrêt du timer
         timer.cancel()
-        MonThread.interrupt()
         finish()
     }
 }
