@@ -31,7 +31,7 @@
         android:id="@+id/buttonUrgence"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#2F80ED"
+        android:backgroundTint="#FF0000"
         android:text="@string/urgence"
         android:layout_marginTop="240dp"
         android:layout_marginStart="50dp"

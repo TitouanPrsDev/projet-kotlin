@@ -102,7 +102,6 @@ class Vue2 : AppCompatActivity(), OnMapReadyCallback, SensorEventListener {
 
         // Listener du boutton Urgence : on met la vitesse à 0, tout comme la position visuelle de la seekbar
         buttonUrgence.setOnClickListener {
-            println("Urgence !")
             vitesseGlobale = 0.0
             vitesseBar.progress = 0
         }
