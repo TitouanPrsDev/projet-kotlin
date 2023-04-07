@@ -1,7 +1,8 @@
 # Projet Kotlin - S6
 
 ## Description du projet
- - ** But du projet **
+ 
+ ## But du projet
 
 `Création d'une application Android permettant de récupérer les trames venant d'un simulateur ( NMEA ) et générer un déplacement en temps réel sur une map avec l'accéléromètre.`
 
