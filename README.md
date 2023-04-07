@@ -34,9 +34,3 @@
 Créer une branche : `git branch <name>`\
 Changer de branche : `git checkout <branch>`
 
-### Configurer Git
-```
-git config --list --show-origin
-git config --global user.name "<name>"
-git config --global user.email "<email>"
-```
