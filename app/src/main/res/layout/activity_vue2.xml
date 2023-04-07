@@ -8,13 +8,36 @@
 
     <SeekBar
         android:id="@+id/vitessebar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="401dp"
+        android:layout_height="22dp"
         android:layout_margin="16dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical"
+        android:rotation="270"
         tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/buttonHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#2F80ED"
+        android:text="@string/home"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="100dp"
+        android:textColor="#F2F2F2"
+        />
+
+    <Button
+        android:id="@+id/buttonUrgence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#2F80ED"
+        android:text="@string/urgence"
+        android:layout_marginTop="110dp"
+        android:layout_marginStart="100dp"
+        android:textColor="#F2F2F2"
+        />
 
 
     <fragment
@@ -22,6 +45,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/vitessebar"
         map:uiZoomControls="true"
-        tools:context=".Vue2" />
+        tools:context=".Vue2"/>
 </RelativeLayout>

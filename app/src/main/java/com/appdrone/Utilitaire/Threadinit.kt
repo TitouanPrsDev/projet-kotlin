@@ -9,7 +9,8 @@ import java.net.Socket
 
 class Threadinit : Thread() {
     // Variables de connexion
-    val host = "10.0.2.2"
+    val simulateur = "10.0.2.2"
+    val telephone = "192.168.242.107"
     val port = 1234
 
     // Variables de la trame
@@ -24,7 +25,7 @@ class Threadinit : Thread() {
         // test de connexion
         try {
             // Connection au serveur
-            val client = Socket(host, port)
+            val client = Socket(simulateur, port)
 
             // Reception de la trame
             val input = BufferedReader(InputStreamReader(client.inputStream))

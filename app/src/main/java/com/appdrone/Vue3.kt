@@ -60,8 +60,8 @@ class Vue3 : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListen
         buttonFichier.setOnClickListener {
             val parser = Parsergpx()
 
-            val fos : FileOutputStream = openFileOutput("test.gpx", Context.MODE_PRIVATE)
-            parser.writeToFile(fos, "fichier1", "test", tab, drone)
+            val fos : FileOutputStream = openFileOutput("trajet.gpx", Context.MODE_PRIVATE)
+            parser.writeToFile(fos, "trajet 1 ", "Démonstration d'un trajet", tab, drone)
             fos.close()
         }
 
@@ -98,7 +98,6 @@ class Vue3 : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickListen
                         // Affichage de la vitesse du drone
                         markerBateau.snippet =
                             "Vitesse : " + drone.vitesse + " knots" + " -> " + Math.round(drone.vitesse!! * 1.852) + " km/h"
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(markerBateau.position))
                     }
                 }
             }

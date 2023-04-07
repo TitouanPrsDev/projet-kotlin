@@ -12,4 +12,6 @@
     <string name="voir_le_drone_en_temps_r_el">Voir le drone en temps réel</string>
     <string name="suivre_une_trajectoire">Suivre une trajectoire</string>
     <string name="cr_er_fichier_de_suivi">Créer un fichier de suivi</string>
+    <string name="urgence">Urgence</string>
+    <string name="home">Home</string>
 </resources>
